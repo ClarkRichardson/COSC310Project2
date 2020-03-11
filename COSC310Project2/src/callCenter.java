@@ -1,3 +1,10 @@
+//==========================================================================================
+// COSC 310 Assignment 2
+// 
+// Happy Home Furnishings Call Center
+// Group #1: Mary Whitten, Nick Gerristen, Ryan Pinkney, Clark Richardson Jordan Kozakevich
+//==========================================================================================
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -51,7 +58,7 @@ public class callCenter {
 			
 	}
 	
-	//Gets user response for which  
+	//Gets user response for what they need help with
 	static int chooseCategory(){
 		System.out.println("What can I help you with?");
 		System.out.println("\t 1. Product Satisfaction");
@@ -71,11 +78,11 @@ public class callCenter {
 	///////////////////////////////////
 	static void productSatisfaction() {
 		int issue = 0;
-		int partNumber = 0;
-		boolean validEntry = false;
 		int solution = 0;
+		boolean validEntry = false;
 		
 		while(!validEntry) {
+			//Displaying options
 			System.out.println("\nProduct Satisfaction");
 			System.out.println("What seems to be the issue?");
 			System.out.println("\t 1. Product Defect");
@@ -120,7 +127,7 @@ public class callCenter {
 					System.out.println("\t 0. Return to main menu");
 					solution = in.nextInt();
 					
-					switch(solution) {
+					switch(solution) {//Directory for further  satisfaction
 						case 1:
 							validateOrder();
 							System.out.println("Please go to your local post office and give them this shipping code and your order will be returned for free");
@@ -162,6 +169,7 @@ public class callCenter {
 		int trackingNum;
 		boolean shipCode = true;
 		boolean payed = false;
+		
 		System.out.println("Would you like to check your order status? Type true or false to answer.");
 		orderstat = in.nextBoolean();
 		int response;
@@ -209,21 +217,22 @@ public class callCenter {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-	static void complaintCheck() {
+	static void complaintCheck() {//
 		in.nextLine();
 		System.out.println("I'm very sorry to hear you've had a bad experience.");
 		System.out.println("Is there something we could do to fix the situation, yes or no?");
 		String fixable = in.nextLine();
 			if (fixable.contains("yes")) {
-				productSatisfaction();
+				productSatisfaction();//direct to product satisfaction to deal with complaint
 			} if (fixable.contains("no")) {
-				complaints();
+				complaints();//continue to compliants section
 			} else {
 				System.out.println("Invalid entry, please respond yes or no");
 			}
-  }
+	}
   
 	static void complaints() {
+		//obtaining customer infomation
 		System.out.println("We will need some basic information from you to process your complaint");
 		System.out.println("What is your name?");
 		String name = in.nextLine();
@@ -233,6 +242,7 @@ public class callCenter {
 		boolean found = false;
 		boolean wrong = false;
 		
+		//Getting compliant infomation
 		for(int i = 0; found == false && i < productList.length; i++) {
 			if(product.contains(productList[i])) {
 				found = true;
@@ -293,11 +303,12 @@ public class callCenter {
 		}
 	}
   
-  public static void leaveReview() {
+  public static void leaveReview() {//user writes a review
 		in.nextLine(); //Clear input
 		System.out.println("It seems that you want to leave a review. Can you tell me which product you would like to review?");
 		String str = in.nextLine();
 		boolean found = false;
+		
 		for(int i = 0; i < productList.length && found == false; i++) { //Try and find product to review
 			if(str.toLowerCase().contains(productList[i])) {
 				found = true;
@@ -317,11 +328,12 @@ public class callCenter {
 		}
 	}
 	
-	public static void seeReviews() {
+	public static void seeReviews() {//user views reviews
 		in.nextLine(); //Clear input
 		System.out.println("It seems that you are searching for product reviews. Can you tell me which product you are looking for?");
 		String str = in.nextLine();
 		boolean found = false;
+		
 		for(int i = 0; i < productList.length; i++) { //Try and find product to review
 			if(str.toLowerCase().contains(productList[i])) {
 				found = true;
@@ -335,7 +347,7 @@ public class callCenter {
 		}
 	}
 	
-	public static void editReview() {
+	public static void editReview() {//user can edit reviews
 		System.out.println("You would like to edit your review. Please select the review number you would like to edit.");
 		if(userReviews[0][0] == null) {
 			System.out.printf("Sorry, it seems that you haven't left any reviews.\n\n");
@@ -375,6 +387,89 @@ public class callCenter {
 		userReviews[2][1] = "I love lamp.";
 	}
 	
+  
+	  ///////////////////
+	 //  Help Section //
+	///////////////////
+	static void help() {
+		System.out.println("enter 0 at any time to exit.");
+		System.out.println("What product do you need help with?");
+		
+		for(int i = 0; i < productList.length; i++) {
+			System.out.print(productList[i] + ", ");
+		}
+		
+		int product = -1;
+		boolean badinput = true;
+		in.nextLine();
+		
+		while(badinput) {//ensures valid input from user
+			String userInput = in.nextLine();
+			userInput = userInput.toLowerCase();
+			for(int i = 0; i < productList.length; i++) {
+				if(productList[i].contentEquals(userInput)) {
+					product = i;
+					badinput = false;
+				}
+			}
+			if(userInput == "0") {
+				System.exit(0);
+			}
+			else if(product == -1) {
+				System.out.println("sorry there may be a typo in your entry, please try again");
+			}
+		}
+		
+		int userint = -1;
+		while(userint < 0) {//determines the issue
+			System.out.println("What do you need help with?");
+			System.out.println("1. Assembly");
+			System.out.println("2. Something Broke");
+			System.out.println("3. I want to return it");
+			System.out.println("9. return to main");
+			System.out.println("0. Exit program");
+			userint = in.nextInt();
+	
+			switch(userint) {
+				case 0:
+					System.exit(0);
+					break;
+				case 1:
+					System.out.println("Here are the assembly instructions");
+					assembly(product);
+					break;
+				case 2:
+					System.out.println("Bring the purchase along with receipt to your nearest Happy Home Furnishings store and we will attempt to fix or replace the piece");
+					break;
+				case 3:
+					System.out.println("Bring the purchase along with receipt to your nearest Happy Home Furnishings store and if the furniture is in good condition we will refund you");
+					break;
+				case 9:
+					break;
+				default:
+					System.out.println("Please use valid input");
+					userint = -1;
+					break;
+			}
+
+		}
+	}
+	
+	static void assembly(int product) {
+		String[] instructions = {"Take each of the legs and screw them into the holes in the bottom",
+				"Screw the sides of the dresser to the back part, then do the top, then screw the rails inside and insert the drawers",
+				"Screw the legs into the bottom of the object, then insert the drawer",
+				"screw each of the legs into the bottom of the top table part",
+				"take each leg and screw them into the flat sitting part, then screw the back into the holes on the top side",
+				"take each of the two cushions and place one on the left half of the sofa and one on the right half",
+				"For each of the three cushions that come with your sofa place one on the right side, one on the left side, and one in between the other two",
+				"Attach to the bottom each of the four side parts, then attach the top part, then screw the four legs into the bottom part"};
+		System.out.println(instructions[product]);
+	}
+
+	  /////////////////////////////
+	 //  Supplemental Functions //
+	/////////////////////////////
 	static int generateShippingCode() {
 		return (int)(Math.random()*100000000);	
 	}
@@ -388,81 +483,4 @@ public class callCenter {
 		System.out.println("Product ID: ");
 		pID = in.nextInt();
 	}
-  
-	  ///////////////////
-	 //  Help Section //
-	///////////////////
-	static void help() {
-		System.out.println("enter 0 at any time to exit.");
-		System.out.println("What product do you need help with?");
-		for(int i = 0; i < productList.length; i++) {
-			System.out.print(productList[i] + ", ");
-		}
-		int product = -1;
-		boolean badinput = true;
-		in.nextLine();
-		while(badinput) {
-		String userInput = in.nextLine();
-		userInput = userInput.toLowerCase();
-		for(int i = 0; i < productList.length; i++) {
-			if(productList[i].contentEquals(userInput)) {
-				product = i;
-				badinput = false;
-			}
-		}
-		if(userInput == "0") {
-			System.exit(0);
-		}
-		else if(product == -1) {
-			System.out.println("sorry there may be a typo in your entry, please try again");
-		}
-		}
-		int userint = -1;
-		while(userint < 0) {
-		System.out.println("What do you need help with?");
-		System.out.println("1. Assembly");
-		System.out.println("2. Something Broke");
-		System.out.println("3. I want to return it");
-		System.out.println("9. return to main");
-		System.out.println("0. I cant exit this program");
-		userint = in.nextInt();
-
-		switch(userint) {
-		case 0:
-			System.exit(0);
-			break;
-		case 1:
-			System.out.println("Here are the assembly instructions");
-			assembly(product);
-			break;
-		case 2:
-			System.out.println("Bring the purchase along with receipt to your nearest ****** store and we will attempt to fix or replace the piece");
-			break;
-		case 3:
-			System.out.println("Bring the purchase along with receipt to your nearest ****** store and if the furniture is in good condition we will refund you");
-			break;
-		case 9:
-			break;
-		default:
-			System.out.println("Please use valid input");
-			userint = -1;
-			break;
-		}
-
-	}
-	}
-
-	static void assembly(int product) {
-		String[] instructions = {"Take each of the legs and screw them into the holes in the bottom",
-				"Screw the sides of the dresser to the back part, then do the top, then screw the rails inside and insert the drawers",
-				"Screw the legs into the bottom of the object, then insert the drawer",
-				"screw each of the legs into the bottom of the top table part",
-				"take each leg and screw them into the flat sitting part, then screw the back into the holes on the top side",
-				"take each of the two cushions and place one on the left half of the sofa and one on the right half",
-				"For each of the three cushions that come with your sofa place one on the right side, one on the left side, and one in between the other two",
-				"Attach to the bottom each of the four side parts, then attach the top part, then screw the four legs into the bottom part"};
-		System.out.println(instructions[product]);
-	}
-
-
 }
