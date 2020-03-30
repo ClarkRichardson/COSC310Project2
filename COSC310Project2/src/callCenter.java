@@ -23,7 +23,7 @@ public class callCenter {
 	//Main method
 	public static void main(String[]args) {
 		
-		System.out.println("Welcome to the Happy Home Furnishings Call Center!");
+		System.out.println();
 		
 		while(callActive) {
 			category = chooseCategory();
