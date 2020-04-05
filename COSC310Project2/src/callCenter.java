@@ -482,6 +482,9 @@ public class callCenter {
 		System.out.println("Product ID: ");
 		pID = in.nextInt();
 	}
+	  ////////////////////////
+	  // Invalid Responses  //
+	  ////////////////////////
 	static void outsideResponseMenu() {
 		System.out.println("I'm sorry, that isn't an available option. Please try again.");
 		chooseCategory();
