@@ -564,7 +564,7 @@ public class callCenter {
 			System.out.println("I didn't understand that, could you try again?");
 			break;
 		case 2:
-			System.out.println("I think there may have had a typo, please try again.");
+			System.out.println("I think there may have been a typo, please try again.");
 			break;
 		case 3:
 			System.out.println("I'm sorry, that isn't an available option. Please try again.");
