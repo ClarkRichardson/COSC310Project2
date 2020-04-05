@@ -47,6 +47,9 @@ public class callCenter {
 					case 5:
 						help();
 						break;
+					case 6:
+						moving();
+						break;
 					default:
 						outsideResponseMenu();
 				}
@@ -65,6 +68,8 @@ public class callCenter {
 		System.out.println("\t 3. Reviews");
 		System.out.println("\t 4. Order Status");
 		System.out.println("\t 5. Help");
+		System.out.println("\t 6. Moving");
+
 		//We can add more
 		System.out.println("\t 0. Exit");//If they enter zero the program will exit
 		System.out.println("Please enter a number from the menu above: ");
@@ -482,6 +487,66 @@ public class callCenter {
 		System.out.println("Product ID: ");
 		pID = in.nextInt();
 	}
+
+	  ////////////
+	 // Moving //
+	////////////
+	static void moving() {
+		System.out.println("Welcome to the moving station, here you can get help moving your furniture");
+		//important variables
+		boolean moreFurniture = true;
+		int[] personalFurn = new int[productList.length];
+		int product = -1;
+		String userInput;
+		//clears the input for strings
+		in.nextLine();
+		//select the furniture you need moved and the amount you need to move
+		while(moreFurniture) {
+			//displays the entire product list
+			System.out.println("what furniture do you need moved from the following list?");
+			for(int i = 0; i < productList.length; i++) {
+				System.out.print(productList[i] + " ");
+			}
+			//select which item your picking
+			userInput = in.nextLine();
+			for(int i = 0; i < productList.length; i++) {
+				if(productList[i].contentEquals(userInput)) {
+					product = i;
+				}
+			}
+			//checks the validity of the input
+			if(product == -1) {
+				System.out.println("Sorry you may have misspelled something");
+			}
+			else {
+				System.out.println("How many peices of this do you need to move");
+				int amount = in.nextInt();
+				personalFurn[product] = amount;
+				System.out.println("Currently you need to move: ");
+				//displays all selected furniture that needs to be moved
+				for(int i = 0; i < productList.length; i++) {
+					if(personalFurn[i] != 0) {
+						System.out.println(personalFurn[i] + " " + productList[i] );
+					}
+				}
+			}
+			//select if you want to add more furniture to move or not
+			System.out.println("enter y if you need to have anything else moved: ");
+			in.nextLine();
+			product = -1;
+			userInput = in.nextLine();
+			if(!userInput.contentEquals("y")) {
+				moreFurniture = false;
+			}
+		}
+		//enter what address you wish the furniture to be moved to
+		System.out.println("To what address do you need this furniture moved?");
+		userInput = in.nextLine();
+		System.out.println("Thank you for choosing Happy Home Furnishings");
+		
+		
+	}
+
 	  ////////////////////////
 	  // Invalid Responses  //
 	  ////////////////////////
@@ -506,7 +571,6 @@ public class callCenter {
 			System.out.println("I'm sorry, I didn't understand that. Could you try again?");
 			
 		}
-		
 	}
 }
 
