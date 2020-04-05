@@ -8,7 +8,7 @@ Clark Richardson (46873155)
 Mary Whitten (52484145)
 
 Description
-Our project was a call center agent that can handle several different types of issues and a few responses. The call agent directs the user towards important information that they request, like help with assembly, acquiring information on their shipments, or filing complaints and getting reviews. The team repository can be found here. 
+Our project was a call center agent that can handle several different types of issues and a few responses. The call agent directs the user towards important information that they request, like help with assembly, acquiring information on their shipments, or filing complaints and getting reviews. 
 
 Features: 
 GUI:
