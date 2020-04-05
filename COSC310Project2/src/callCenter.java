@@ -26,6 +26,7 @@ public class callCenter {
 		System.out.println("Welcome to the Happy Home Furnishings Call Center!");
 		
 		while(callActive) {
+			System.out.println("What can I help you with?");
 			category = chooseCategory();
 			if(category==0) {
 				callActive = false;//if zero exit
@@ -50,8 +51,7 @@ public class callCenter {
 						moving();
 						break;
 					default:
-						System.out.println("Invalid entry. Please Select another category");
-						chooseCategory();
+						outsideResponseMenu();
 				}
 			}
 		}
@@ -63,13 +63,13 @@ public class callCenter {
 	
 	//Gets user response for what they need help with
 	static int chooseCategory(){
-		System.out.println("What can I help you with?");
 		System.out.println("\t 1. Product Satisfaction");
 		System.out.println("\t 2. Complaints");
 		System.out.println("\t 3. Reviews");
 		System.out.println("\t 4. Order Status");
 		System.out.println("\t 5. Help");
 		System.out.println("\t 6. Moving");
+
 		//We can add more
 		System.out.println("\t 0. Exit");//If they enter zero the program will exit
 		System.out.println("Please enter a number from the menu above: ");
@@ -113,7 +113,7 @@ public class callCenter {
 					validEntry = true;
 					break;
 				default:
-					System.out.println("Please enter a valid command");
+					notValid();
 					break;
 			}
 			if(issue == 0) {
@@ -153,7 +153,7 @@ public class callCenter {
 							validEntry = true;
 							break;
 						default:
-							System.out.println("Please enter a valid number:");
+							notValid();
 							break;
 					}
 				}
@@ -231,12 +231,12 @@ public class callCenter {
 			} if (fixable.contains("no")) {
 				complaints();//continue to compliants section
 			} else {
-				System.out.println("Invalid entry, please respond yes or no");
+				notValid();
 			}
 	}
   
 	static void complaints() {
-		//obtaining customer infomation
+		//obtaining customer information
 		System.out.println("We will need some basic information from you to process your complaint");
 		System.out.println("What is your name?");
 		String name = in.nextLine();
@@ -246,7 +246,7 @@ public class callCenter {
 		boolean found = false;
 		boolean wrong = false;
 		
-		//Getting compliant infomation
+		//Getting compliant information
 		for(int i = 0; found == false && i < productList.length; i++) {
 			if(product.contains(productList[i])) {
 				found = true;
@@ -302,7 +302,7 @@ public class callCenter {
 				back();
 				break loop;
 			default:
-				System.out.println("You have made an invalid selection. Please try again.");
+				notValid();
 			}
 		}
 	}
@@ -375,7 +375,7 @@ public class callCenter {
 			return;
 		}
 		else
-			System.out.println("You have made an invalid selection. Please try again.");
+			notValid();
 	}
 		
 	public static void back() {
@@ -420,7 +420,7 @@ public class callCenter {
 				System.exit(0);
 			}
 			else if(product == -1) {
-				System.out.println("sorry there may be a typo in your entry, please try again");
+				notValid();
 			}
 		}
 		
@@ -451,7 +451,7 @@ public class callCenter {
 				case 9:
 					break;
 				default:
-					System.out.println("Please use valid input");
+					notValid();
 					userint = -1;
 					break;
 			}
@@ -546,4 +546,31 @@ public class callCenter {
 		
 		
 	}
+
+	  ////////////////////////
+	  // Invalid Responses  //
+	  ////////////////////////
+	static void outsideResponseMenu() {
+		System.out.println("I'm sorry, that isn't an available option. Please try again.");
+		chooseCategory();
+	}
+	static void notValid() {
+		int n = (int) (Math.random()*4);
+		switch(n) {
+		case 0: 
+			System.out.println("I don't think that's a valid reponse. Please try again.");
+		case 1:
+			System.out.println("I didn't understand that, could you try again?");
+		case 2:
+			System.out.println("I think there may have had a typo, please try again.");
+		case 3:
+			System.out.println("I'm sorry, that isn't an available option. Please try again.");
+		case 4:
+			System.out.println("Please try again, that was not a valid entry.");
+		default:
+			System.out.println("I'm sorry, I didn't understand that. Could you try again?");
+			
+		}
+	}
 }
+
