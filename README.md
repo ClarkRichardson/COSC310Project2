@@ -18,7 +18,6 @@ Language Toolkits:
 
 Invalid Responses: 
 In order to make the interactions with the bot feel more like conversation, the notValid() method was created. The purpose of this method is to randomly reply one of 6 possible reponses when a user types an input outside of the available inputs. This will make it feel more like conversation because the chat bot will not have the same repsonse everytime. For example:
-
 Attempt #1:
 Bot:  I'm very sorry to hear you've had a bad experience.
       Is there something we could do to fix the situation, yes or no?
