@@ -7,6 +7,7 @@
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class callCenter {
 	//Initializing Global Variables
@@ -224,7 +225,7 @@ public class callCenter {
 			if (fixable.contains("yes")) {
 				productSatisfaction();//direct to product satisfaction to deal with complaint
 			} if (fixable.contains("no")) {
-				complaints();//continue to compliants section
+				complaints();//continue to complaints section
 			} else {
 				notValid();
 			}
@@ -494,16 +495,22 @@ public class callCenter {
 		switch(n) {
 		case 0: 
 			System.out.println("I don't think that's a valid reponse. Please try again.");
+			break;
 		case 1:
 			System.out.println("I didn't understand that, could you try again?");
+			break;
 		case 2:
 			System.out.println("I think there may have had a typo, please try again.");
+			break;
 		case 3:
 			System.out.println("I'm sorry, that isn't an available option. Please try again.");
+			break;
 		case 4:
 			System.out.println("Please try again, that was not a valid entry.");
+			break;
 		default:
 			System.out.println("I'm sorry, I didn't understand that. Could you try again?");
+			break;
 			
 		}
 		
