@@ -36,3 +36,5 @@ Bot:  I think there may have been a typo, please try again.
 
 Language Toolkits: 
 
+New Method:
+A new method was added called moving. The user selects an amount of each of the furniture that they want moved and an address they want it to be moved to.
