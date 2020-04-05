@@ -559,22 +559,16 @@ public class callCenter {
 		switch(n) {
 		case 0: 
 			System.out.println("I don't think that's a valid reponse. Please try again.");
-			break;
 		case 1:
 			System.out.println("I didn't understand that, could you try again?");
-			break;
 		case 2:
 			System.out.println("I think there may have had a typo, please try again.");
-			break;
 		case 3:
 			System.out.println("I'm sorry, that isn't an available option. Please try again.");
-			break;
 		case 4:
 			System.out.println("Please try again, that was not a valid entry.");
-			break;
 		default:
 			System.out.println("I'm sorry, I didn't understand that. Could you try again?");
-			break;
 			
 		}
 	}
