@@ -16,9 +16,7 @@ The gui was created using the javax.swing library. It allowed the GUI to be impl
 
 Language Toolkits: 
 
-////////////////////////
-//  Invalid Responses //
-////////////////////////
+Invalid Responses: 
 In order to make the interactions with the bot feel more like conversation, the notValid() method was created. The purpose of this method is to randomly reply one of 6 possible reponses when a user types an input outside of the available inputs. This will make it feel more like conversation because the chat bot will not have the same repsonse everytime. For example:
 
 Attempt #1:
