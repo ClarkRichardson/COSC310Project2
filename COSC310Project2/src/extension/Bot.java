@@ -5,10 +5,12 @@ package extension;
 import group1.nick.coreNLP.SentimentAnalysis;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import javax.swing.*;
+import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -23,6 +25,8 @@ public class Bot extends JFrame {
 	static String[][] userReviews = new String[100][2];
 	String firstAnswer="", secondAnswer="", thirdAnswer="";
 	int reviewNum;
+	String name = null;
+	String item = null;
 	
 	public void userAdd(String newText) {
 		if(newText.length() > 65) {
@@ -162,6 +166,16 @@ public class Bot extends JFrame {
 		}
 		//Complaint Check
 		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+			questionNumber++;
+			try {
+				complaints();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		//Reviews
