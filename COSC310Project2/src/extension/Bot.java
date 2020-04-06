@@ -279,7 +279,7 @@ public class Bot extends JFrame {
 			}
 			//Leave a complaint
 			else if(secondAnswer.equals("4") || secondAnswer.toLowerCase().equals("complaint")) {
-				//path.clear();
+				path.clear();
 				path.add("2");
 				reviews();
 			}
