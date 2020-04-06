@@ -16,14 +16,34 @@ public class Bot extends JFrame {
 	
 	
 	public void userAdd(String newText) {
-		history.add("You-> " + newText +"\n");
+		if(newText.length() > 65) {
+			history.add("Bot: " + newText.substring(0, 65) + "\n");
+			userAdd(newText.substring(65, newText.length()));
+			
+		}else {
+			history.add("You -> " + newText + "\n");
+		}
 	}
 	
 	public void botAdd(String newText) {
-		history.add("Bot: " + newText + "\n");
+		if(newText.length() > 65) {
+			history.add("Bot: " + newText.substring(0, 65) + "\n");
+			botAdd(newText.substring(65, newText.length())); 
+			
+		}else {
+			history.add("Bot: " + newText + "\n");
+		}
+		
 	}
 	public void botAddNoName(String newText) {
-		history.add("     " + newText + "\n");
+		if(newText.length() > 65) {
+			history.add("Bot: " + newText.substring(0, 65) + "\n");
+			botAddNoName(newText.substring(65, newText.length())); 
+			
+		}else {
+			history.add("     " + newText + "\n");
+		}; 
+
 	}
 	
 	void initializeChat(){
@@ -71,7 +91,7 @@ public class Bot extends JFrame {
 		frame.add(textInput);
 		textInput.setSize(310, 25);
 		textInput.setLocation(80, 645);
-		
+
 		//load data into chat History
 		initializeChat();
 		history.forEach((n) -> chatArea.append(n));
@@ -84,11 +104,10 @@ public class Bot extends JFrame {
 				userAdd(newEntry);
 				getResponse(newEntry);
 				resetTextBoxes();
-				if(history.size()>37) {
-					System.out.println(history.size()-37);
-					for(int i = 0; i <= history.size()-38; i++) {
-						history.remove(0);
-					}
+
+				while(history.size()>38) {
+					history.remove(0);
+
 				}
 				history.forEach((n) -> chatArea.append(n)); 
 				
@@ -134,7 +153,6 @@ public class Bot extends JFrame {
 		}
 		//Complaint Check
 		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-
 			
 		}
 		//Reviews
@@ -248,7 +266,6 @@ public class Bot extends JFrame {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-
 	
 	
 	
@@ -262,7 +279,6 @@ public class Bot extends JFrame {
 	  ///////////////////
 	 //  Help Section //
 	///////////////////
-	
 	
 	
 
@@ -302,3 +318,4 @@ public class Bot extends JFrame {
 		}
 	}
 }
+

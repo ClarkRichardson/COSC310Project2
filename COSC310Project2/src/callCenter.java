@@ -1,4 +1,4 @@
-//==========================================================================================
+/==========================================================================================
 // COSC 310 Assignment 2
 // 
 // Happy Home Furnishings Call Center
@@ -548,14 +548,14 @@ public class callCenter {
 	}
 
 	  ////////////////////////
-	  //  Invalid Responses //
+	  // Invalid Responses  //
 	  ////////////////////////
 	static void outsideResponseMenu() {
 		System.out.println("I'm sorry, that isn't an available option. Please try again.");
 		chooseCategory();
 	}
 	static void notValid() {
-		int n = (int) (Math.random()*5);
+		int n = (int) (Math.random()*4);
 		switch(n) {
 		case 0: 
 			System.out.println("I don't think that's a valid reponse. Please try again.");
