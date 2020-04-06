@@ -285,13 +285,15 @@ public class Bot extends JFrame {
 	 //  Help Section //
 	///////////////////
 	void help() {
+		if(path.size()==1) {
 		botAdd("enter 0 at any time to exit.");
 		botAdd("What product do you need help with?");
 
 		for(int i = 0; i < productList.length; i++) {
 			botAdd(productList[i] + ", ");
 		}
-		
+		return;
+		} else if(path.size()==2) {
 		int product = -1;
 		boolean badinput = true;
 		
@@ -345,6 +347,7 @@ public class Bot extends JFrame {
 			}
 
 		}
+		}
 	}
 	
 	void assembly(int product) {
@@ -362,15 +365,14 @@ public class Bot extends JFrame {
 	 // Moving //
 	////////////
 	void moving() {
+		
 		//important variables
 		boolean moreFurniture = true;
 		int[] personalFurn = new int[productList.length];
 		int product = -1;
 		String userInput;
-		
-		if(path.size()==1) {
 		botAdd("Welcome to the moving section, here you can get help moving your furniture");
-
+		if(path.size()==1) {
 		//select the furniture you need moved and the amount you need to move
 		path.remove(path.size()-1);
 		while(moreFurniture) {
