@@ -19,6 +19,8 @@ public class Bot extends JFrame {
 	public ArrayList<String> path = new ArrayList<String>();
 	static String[] productList = {"chair", "table", "couch", "love seat", "night stand", "lamp", "wardrobe", "stool", "kitchen appliance"};
 	public int questionNumber = 0;
+	public String item = null;
+	public String name = null;
 	
 	
 	public void userAdd(String newText) {
@@ -279,9 +281,8 @@ public class Bot extends JFrame {
 	 //  Complaints Section //
 	/////////////////////////
 	void complaints() throws IOException, ClassNotFoundException  {
-		String item = null;
 		if(path.size() ==1) {
-			botAdd("Please include your name, city and item you had issues with in your complaint below.");
+			botAdd("Please include your name and item you had issues with in your complaint below.");
 		}
 		else if(path.size() ==2) {
 			String text = path.get(1);
@@ -293,6 +294,12 @@ public class Bot extends JFrame {
 				if(words[x].contains("NN"))
 					nn.add(words[x]);
 			}
+			for(int x = 0; x < nn.size();x++) {
+				if(nn.get(x).contains("NNP")) {
+					name = nn.get(x).substring(0, nn.get(x).indexOf("/"));
+					break;
+				}	
+			}
 			for(int x = 0;x < productList.length; x++ ) {
 				for(int y = 0;y<nn.size();y++) {
 					String temp = nn.get(y).substring(0,nn.get(y).indexOf("/"));
@@ -300,16 +307,42 @@ public class Bot extends JFrame {
 						item = temp;
 				}
 			}
-			botAdd("Is this the item you had a complaint about? "+ item);
+			if(item != null)
+				botAdd("Is this the item you had a complaint about? "+ item);
+			else {
+				botAdd("Please enter the category for your item complaint.");
+				botAddNoName("chair, table, couch, love seat, night stand, lamp, wardrobe, stool, kitchen appliance");
+			}
+				
 		}
 		else if (path.size()==3) {
 			String text = path.get(2);
 			if(text.toLowerCase().equals("yes")) {
+				botAdd("Thank you " + name + " for your feedback about the " + item +". We have noted your issue and will try and fix the situation.");
+				botAddNoName("Is there anything else we can help you with?");
 			
 			}
-			if(text.toLowerCase().equals("no")) {
-				
+			else if(text.toLowerCase().equals("no")) {
+				botAdd("Please enter the category for your item complaint.");
+				botAddNoName("chair, table, couch, love seat, night stand, lamp, wardrobe, stool, kitchen appliance");
 			}
+			else {
+				item = text;
+				botAdd("Thank you " + name + " for your feedback about the" + item +". We have noted your issue and will try and fix the situation.");
+				botAddNoName("Is there anything else we can help you with?");
+			}
+			
+		}
+		else {
+			String text = path.get(3);
+			if (text.toLowerCase().equals("no")) {
+				getResponse("exit");
+			}
+			else {
+				botAdd("Thank you " + name + " for your feedback about the " + text +". We have noted your issue and will try and fix the situation.");
+				getResponse("exit");
+			}
+			
 		}
 	}
 	
