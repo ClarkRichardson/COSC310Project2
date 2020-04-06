@@ -134,6 +134,7 @@ public class Bot extends JFrame {
 		}
 		//Complaint Check
 		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+
 			
 		}
 		//Reviews
@@ -150,7 +151,7 @@ public class Bot extends JFrame {
 		}
 		//Other (Please enter a valid command
 		else{
-			botAdd("Please Enter Valid Input");
+			notValid();
 			path.remove(newEntry);
 		}
 			
@@ -192,7 +193,7 @@ public class Bot extends JFrame {
 			
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		
@@ -238,7 +239,7 @@ public class Bot extends JFrame {
 			}
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		}
@@ -247,8 +248,7 @@ public class Bot extends JFrame {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-	
-	
+
 	
 	
 	
@@ -265,20 +265,40 @@ public class Bot extends JFrame {
 	
 	
 	
-	
-	
-	  /////////////////////////////
-	 //  Supplemental Functions //
-	/////////////////////////////
-	
-	
-	
-	
 
 	  /////////////////////////////
 	 //  Supplemental Functions //
 	/////////////////////////////
 	static int generateShippingCode() {
 		return (int)(Math.random()*100000000);	
+	}
+	
+	////////////////////////
+	//  Invalid Responses //
+	////////////////////////
+	
+	void notValid() {
+		int n = (int) (Math.random()*4);
+		switch(n) {
+		case 0: 
+			botAdd("I don't think that's a valid reponse. Please try again.");
+			break;
+		case 1:
+			botAdd("I didn't understand that, could you try again?");
+			break;
+		case 2:
+			botAdd("I think there may have been a typo, please try again.");
+			break;
+		case 3:
+			botAdd("I'm sorry, that isn't an available option. Please try again.");
+			break;
+		case 4:
+			botAdd("Please try again, that was not a valid entry.");
+			break;
+		default:
+			botAdd("I'm sorry, I didn't understand that. Could you try again?");
+			break;
+			
+		}
 	}
 }

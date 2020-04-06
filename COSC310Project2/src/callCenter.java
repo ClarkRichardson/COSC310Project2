@@ -3,7 +3,6 @@
 // 
 // Happy Home Furnishings Call Center
 // Group #1: Mary Whitten, Nick Gerristen, Ryan Pinkney, Clark Richardson Jordan Kozakevich
-// test
 //==========================================================================================
 
 import java.util.Scanner;
