@@ -1,10 +1,15 @@
 package extension;
 
 import javax.swing.*;
+
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -12,6 +17,7 @@ public class Bot extends JFrame {
 	//Setting up chat arrayList
 	public static ArrayList<String> history = new ArrayList<String>();
 	public ArrayList<String> path = new ArrayList<String>();
+	static String[] productList = {"chair", "table", "couch", "love seat", "night stand", "lamp", "wardrobe", "stool", "kitchen appliance"};
 	public int questionNumber = 0;
 	
 	
@@ -150,7 +156,16 @@ public class Bot extends JFrame {
 		}
 		//Complaint Check
 		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-			
+			questionNumber ++;
+			try {
+				complaints();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		//Reviews
 		else if(category.equals("3") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
@@ -263,7 +278,40 @@ public class Bot extends JFrame {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-	
+	void complaints() throws IOException, ClassNotFoundException  {
+		String item = null;
+		if(path.size() ==1) {
+			botAdd("Please include your name, city and item you had issues with in your complaint below.");
+		}
+		else if(path.size() ==2) {
+			String text = path.get(1);
+			MaxentTagger tagger =new MaxentTagger("taggers/left3words-wsj-0-18.tagger");
+			List<String> nn = new ArrayList<String>();
+			String tagged = tagger.tagString(text);
+			String[] words = tagged.split(" ");
+			for(int x = 0;x < words.length; x++ ) {
+				if(words[x].contains("NN"))
+					nn.add(words[x]);
+			}
+			for(int x = 0;x < productList.length; x++ ) {
+				for(int y = 0;y<nn.size();y++) {
+					String temp = nn.get(y).substring(0,nn.get(y).indexOf("/"));
+					if(temp.equals(productList[x]))
+						item = temp;
+				}
+			}
+			botAdd("Is this the item you had a complaint about? "+ item);
+		}
+		else if (path.size()==3) {
+			String text = path.get(2);
+			if(text.toLowerCase().equals("yes")) {
+			
+			}
+			if(text.toLowerCase().equals("no")) {
+				
+			}
+		}
+	}
 	
 	
 	
