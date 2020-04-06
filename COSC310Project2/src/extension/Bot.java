@@ -36,7 +36,7 @@ public class Bot extends JFrame {
 	public void botAdd(String newText) {
 		if(newText.length() > 65) {
 			history.add("Bot: " + newText.substring(0, 65) + "\n");
-			botAdd(newText.substring(65, newText.length())); 
+			botAddNoName(newText.substring(65, newText.length())); 
 			
 		}else {
 			history.add("Bot: " + newText + "\n");
@@ -49,7 +49,7 @@ public class Bot extends JFrame {
 			botAddNoName(newText.substring(65, newText.length())); 
 			
 		}else {
-			history.add("     " + newText + "\n");
+			history.add("        " + newText + "\n");
 		}; 
 
 	}
@@ -174,7 +174,7 @@ public class Bot extends JFrame {
 		}
 		//Help
 		else if(category.equals("5") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-			
+			help();
 		}
 		//Other (Please enter a valid command
 		else{
@@ -442,6 +442,64 @@ public class Bot extends JFrame {
 	 //  Help Section //
 	///////////////////
 	
+	public void help() {
+		/////////FIRST QUESTION/////////
+		if(path.size()==1) {
+			botAdd("What product do you need help with?");
+			for(int i = 0; i<productList.length; i++) {
+				botAddNoName("\t" + i +": "+ productList[i]);
+			}
+			botAddNoName("\t 0. Exit");
+			botAddNoName("\t 9. Return to main menu");
+			botAdd("Please select an option from the choices above");
+			return;
+		}
+		
+		///////SECOND QUESTION/////////
+		
+		if(path.size()==2) {
+			botAdd("What do you need help with?");
+			botAddNoName("\t 1. Assmebly");
+			botAddNoName("\t 2. Something Broke");
+			botAddNoName("\t 3. I want to return it");
+			botAddNoName("\t 0. Exit");
+			botAddNoName("\t 9. Return to main menu");
+			botAdd("Please select an option from the choices above");
+			return;
+		}else if(path.size()==3){
+			
+			
+			String secondAnswer = path.get(2);
+			
+			//String helpProduct = path.get();
+			
+			//Send back
+			if(secondAnswer.equals("1") || secondAnswer.toLowerCase().equals("assembly")) {
+				botAdd("Here are the assembly instructions");
+				botAddNoName(assembly(1));
+				path.clear();
+				return;
+			}
+			//Send refund
+			else if(secondAnswer.equals("2") || secondAnswer.contains("broke") ||  secondAnswer.toLowerCase().equals("something")) {
+				botAdd("Bring the purchase along with receipt to your nearest Happy Home Furnishings store and we will attempt to fix or replace the piece");
+				path.clear();
+				return;
+			}
+			//Leave a review
+			else if(secondAnswer.equals("3") || secondAnswer.toLowerCase().contains("return")) {
+				botAdd("Bring the purchase along with receipt to your nearest Happy Home Furnishings store and if the furniture is in good condition we will refund you");
+				path.clear();
+				return;
+			}
+			//Other (Please enter a valid command
+			else{
+				notValid();
+				path.remove(path.size()-1);
+			}
+		}
+	}
+	
 	
 
 	  /////////////////////////////
@@ -450,7 +508,10 @@ public class Bot extends JFrame {
 	static int generateShippingCode() {
 		return (int)(Math.random()*100000000);	
 	}
-	
+	static String assembly(int product) {
+		String instructions = "Take each of the legs and screw them into the holes in the bottom. Screw the sides of the dresser to the back part, then do the top, then screw the rails inside and insert the drawers. Screw the legs into the bottom of the object, then insert the drawer. Screw each of the legs into the bottom of the top table part. take each leg and screw them into the flat sitting part, then screw the back into the holes on the top side take each of the two cushions and place one on the left half of the sofa and one on the right half For each of the three cushions that come with your sofa place one on the right side, one on the left side, and one in between the other two Attach to the bottom each of the four side parts, then attach the top part, then screw the four legs into the bottom part";
+		return instructions;
+	}
 	////////////////////////
 	//  Invalid Responses //
 	////////////////////////
