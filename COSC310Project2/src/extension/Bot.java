@@ -1,13 +1,16 @@
+
 package extension;
 
 //Change this path to your appropriate maven project path
 import group1.nick.coreNLP.SentimentAnalysis;
-
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import javax.swing.*;
+import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -22,6 +25,8 @@ public class Bot extends JFrame {
 	static String[][] userReviews = new String[100][2];
 	String firstAnswer="", secondAnswer="", thirdAnswer="";
 	int reviewNum;
+	String name = null;
+	String item = null;
 	
 	public void userAdd(String newText) {
 		if(newText.length() > 65) {
@@ -155,12 +160,22 @@ public class Bot extends JFrame {
 		
 		//Determine each category
 		//Product Satisfaction
-		if(category.equals("1") ||  category.toLowerCase().equals("satisfaction")) {
+		if(category.equals("1") ||  category.toLowerCase().contains("satisfaction")) {
 			questionNumber++;
 			productSatisfaction();
 		}
 		//Complaint Check
-		else if(category.equals("2") || category.toLowerCase().contains("complaint")) {
+		else if(category.equals("2") || category.toLowerCase().contains("complain")) {
+			questionNumber++;
+			try {
+				complaints();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		//Reviews
@@ -279,7 +294,71 @@ public class Bot extends JFrame {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-	
+	void complaints() throws IOException, ClassNotFoundException  {
+		if(path.size() ==1) {
+			botAdd("Please include your name and item you had issues with in your complaint below.");
+		}
+		else if(path.size() ==2) {
+			String text = path.get(1);
+			MaxentTagger tagger =new MaxentTagger("taggers/left3words-wsj-0-18.tagger");
+			List<String> nn = new ArrayList<String>();
+			String tagged = tagger.tagString(text);
+			String[] words = tagged.split(" ");
+			for(int x = 0;x < words.length; x++ ) {
+				if(words[x].contains("NN"))
+					nn.add(words[x]);
+			}
+			for(int x = 0; x < nn.size();x++) {
+				if(nn.get(x).contains("NNP")) {
+					name = nn.get(x).substring(0, nn.get(x).indexOf("/"));
+					break;
+				}	
+			}
+			for(int x = 0;x < productList.length; x++ ) {
+				for(int y = 0;y<nn.size();y++) {
+					String temp = nn.get(y).substring(0,nn.get(y).indexOf("/"));
+					if(temp.equals(productList[x]))
+						item = temp;
+				}
+			}
+			if(item != null)
+				botAdd("Is this the item you had a complaint about? "+ item);
+			else {
+				botAdd("Please enter the category for your item complaint.");
+				botAddNoName("chair, table, couch, love seat, night stand, lamp, wardrobe, stool, kitchen appliance");
+			}
+				
+		}
+		else if (path.size()==3) {
+			String text = path.get(2);
+			if(text.toLowerCase().equals("yes")) {
+				botAdd("Thank you " + name + " for your feedback about the " + item +". We have noted your issue and will try and fix the situation.");
+				botAddNoName("Is there anything else we can help you with?");
+			
+			}
+			else if(text.toLowerCase().equals("no")) {
+				botAdd("Please enter the category for your item complaint.");
+				botAddNoName("chair, table, couch, love seat, night stand, lamp, wardrobe, stool, kitchen appliance");
+			}
+			else {
+				item = text;
+				botAdd("Thank you " + name + " for your feedback about the" + item +". We have noted your issue and will try and fix the situation.");
+				botAddNoName("Is there anything else we can help you with?");
+			}
+			
+		}
+		else {
+			String text = path.get(3);
+			if (text.toLowerCase().equals("no")) {
+				getResponse("exit");
+			}
+			else {
+				botAdd("Thank you " + name + " for your feedback about the " + text +". We have noted your issue and will try and fix the situation.");
+				getResponse("exit");
+			}
+			
+		}
+	}
 	
 	
 	  /////////////////////
@@ -545,4 +624,3 @@ public class Bot extends JFrame {
 		}
 	}
 }
-

@@ -35,6 +35,25 @@ User: possibly
 Bot:  I think there may have been a typo, please try again.
 
 Language Toolkits: 
+Parts-of-Speech (Stanford CoreNLP)
+This toolkit is used to identify names and products in a the complaint section. A customer writes their entire complaint
+and the bot will identify the persons name and the item the are complaining about. 
+Example snippet:
+Bot:Please leave your name and item in your complaint below.
+You -> My name is Jesse and I bought a chair last week. It has broken within two days.
+Bot: Is this the item that your complaint was about? chair
+You -> Yes
+Bot: Thank you Jesse for the feedback about the chair. We have noted your issue and will try to fix the situation.
+
+Sentiment Analysis (Stanford CoreNLP)
+This toolkit is used to evaluate the tone of a review left by the user and appends a rating (out of 5) to the review.
+Example snippet: 
+Bot: It seems that you want to leave a review. Can you tell me which product you would like to review?
+You -> table
+Bot: Great, you would like to review table! Please leave your review now and I will submit it.
+You -> I really love the table that I bought. I think that it has been a wonderful addition to my house!
+Bot: Based on my Stanford algorithm, I have determined that your review will be rated as 5 stars!
+*Review will be stored with [5 stars] appended to the user's input.
 
 New Method:
 A new method was added called moving. The user selects an amount of each of the furniture that they want moved and an address they want it to be moved to.
