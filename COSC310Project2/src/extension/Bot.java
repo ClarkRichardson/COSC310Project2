@@ -1,15 +1,14 @@
+
 package extension;
 
-import javax.swing.*;
-
+//Change this path to your appropriate maven project path
+import group1.nick.coreNLP.SentimentAnalysis;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
 
 
@@ -17,11 +16,13 @@ public class Bot extends JFrame {
 	//Setting up chat arrayList
 	public static ArrayList<String> history = new ArrayList<String>();
 	public ArrayList<String> path = new ArrayList<String>();
-	static String[] productList = {"chair", "table", "couch", "love seat", "night stand", "lamp", "wardrobe", "stool", "kitchen appliance"};
 	public int questionNumber = 0;
-	public String item = null;
-	public String name = null;
 	
+	//Review Section attributes
+	static String[] productList = {"chair", "table", "couch", "love seat", "night stand", "lamp", "wardrobe", "stool", "kitchen appliance"};
+	static String[][] userReviews = new String[100][2];
+	String firstAnswer="", secondAnswer="", thirdAnswer="";
+	int reviewNum;
 	
 	public void userAdd(String newText) {
 		if(newText.length() > 65) {
@@ -51,6 +52,7 @@ public class Bot extends JFrame {
 		}else {
 			history.add("     " + newText + "\n");
 		}; 
+
 	}
 	
 	void initializeChat(){
@@ -98,8 +100,8 @@ public class Bot extends JFrame {
 		frame.add(textInput);
 		textInput.setSize(310, 25);
 		textInput.setLocation(80, 645);
-		
-		//load datainto chatHistory
+
+		//load data into chat History
 		initializeChat();
 		history.forEach((n) -> chatArea.append(n));
 		
@@ -111,8 +113,10 @@ public class Bot extends JFrame {
 				userAdd(newEntry);
 				getResponse(newEntry);
 				resetTextBoxes();
+
 				while(history.size()>38) {
 					history.remove(0);
+
 				}
 				history.forEach((n) -> chatArea.append(n)); 
 				
@@ -153,25 +157,17 @@ public class Bot extends JFrame {
 		//Determine each category
 		//Product Satisfaction
 		if(category.equals("1") || category.toLowerCase().equals("product satisfaction") ||  category.toLowerCase().equals("satisfaction")) {
-			questionNumber ++;
+			questionNumber++;
 			productSatisfaction();
 		}
 		//Complaint Check
 		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-			questionNumber ++;
-			try {
-				complaints();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 		//Reviews
 		else if(category.equals("3") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-			
+			questionNumber++;
+			reviews();
 		}
 		//Order Status
 		else if(category.equals("4") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
@@ -183,7 +179,7 @@ public class Bot extends JFrame {
 		}
 		//Other (Please enter a valid command
 		else{
-			botAdd("Please Enter Valid Input");
+			notValid();
 			path.remove(newEntry);
 		}
 			
@@ -225,7 +221,7 @@ public class Bot extends JFrame {
 			
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		
@@ -271,7 +267,7 @@ public class Bot extends JFrame {
 			}
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		}
@@ -347,12 +343,163 @@ public class Bot extends JFrame {
 	}
 	
 	
-	
-	
 	  /////////////////////
 	 //  Review Section //
 	/////////////////////
+	void reviews() {
+		if(path.size()==1) {
+			botAdd("You have reached the Reviews section. Please select one from the following menu: ");
+			botAddNoName("1. Leave a review");
+			botAddNoName("2. See the reviews of a product");
+			botAddNoName("3. Edit one of your existing reviews");
+			botAddNoName("4. Go back to the previous menu.");
+			botAdd("Please select an option from the choices above");
+			return;
+		}else if(path.size()==2) {
+			
+			firstAnswer = path.get(1);
+			
+			//Leave Review
+			if(firstAnswer.equals("1") || firstAnswer.toLowerCase().equals("leave a review") ||  firstAnswer.toLowerCase().equals("leave review")) {
+				botAdd("It seems that you want to leave a review. Can you tell me which product you would like to review?");
+				return;
+			}
+			
+			//See Reviews
+			else if(firstAnswer.equals("2") || firstAnswer.toLowerCase().equals("see the reviews of a product") ||  firstAnswer.toLowerCase().equals("see")) {		
+				botAdd("It seems that you are searching for product reviews. Can you tell me which product you are looking for?");
+				return;
+			}
+			
+			//Edit Review
+			else if(firstAnswer.equals("3") || firstAnswer.toLowerCase().equals("edit one of your existing reviews") ||  firstAnswer.toLowerCase().equals("edit")) {
+				botAdd("You would like to edit your review. Please select the review number you would like to edit.");
+				
+				if(userReviews[0][0] == null) {
+					botAdd("Sorry, it seems that you haven't left any reviews.\n\n");
+					return;
+				}
+				int i;
+				for(i = 1; i < userReviews.length && userReviews[i-1][0] != null; i++) {
+					botAdd(String.format("%d. %s: %s\n",i, userReviews[i-1][0], userReviews[i-1][1]));
+				}
+				botAdd(String.format("%d. Go back to the main menu.",i));
+				return;
+			}
+			
+			//Back
+			else if(firstAnswer.equals("4") || firstAnswer.toLowerCase().equals("go back to the previous menu") ||  firstAnswer.toLowerCase().equals("back")) {
+				back();
+			}
+			
+			//Other (Please enter a valid command)
+			else{
+				botAdd("Please Enter Valid Input");
+				//notValid();
+				path.remove(path.size()-1);
+			}
+		}else if(path.size()==3) {
+			secondAnswer = path.get(2);
+			//Leave Review
+			if(firstAnswer.equals("1") || firstAnswer.toLowerCase().equals("leave a review") ||  firstAnswer.toLowerCase().equals("leave review")) {
+				//Find product to review
+				boolean found = false;
+				for(int i = 0; i < productList.length && found == false; i++) { //Try and find product to review
+					if(secondAnswer.toLowerCase().contains(productList[i])) {
+						found = true;
+						botAdd(String.format("Great, you would like to review %s! Please leave your review now and I will submit it.\n",productList[i]));
+					} else if(i == productList.length-1 && !found) {
+						botAdd("Sorry, we can't seem to find a product that matches your query. Can I help you with anything else?");
+						back();
+					}
+				}
+				return;
+			}
+				
+			//See Reviews
+			else if(firstAnswer.equals("2") || firstAnswer.toLowerCase().equals("see the reviews of a product") ||  firstAnswer.toLowerCase().equals("see")) {			
+				
+				
+				boolean found = false;
+				
+				for(int i = 0; i < productList.length; i++) { //Try and find product to review
+					if(secondAnswer.toLowerCase().contains(productList[i])) {
+						found = true;
+						botAdd(String.format("Here are the reviews for %s:\n",productList[i]));
+						botAddNoName(String.format("I think that %s was a great product! 5 stars.", productList[i]));
+						botAddNoName(String.format("Bought %s two days ago and already recieved it! Missing 1 screw but they offered to send me the missing part with no extra charge. 4 stars.", productList[i]));
+						botAddNoName(String.format("I think that %s was a great product! 5 stars.", productList[i]));
+						botAddNoName("That is the end of the reviews.\n\n");
+						back();
+					} else if(i == productList.length-1 && !found)
+						System.out.printf("Sorry, we can't seem to find a product that matches your query. Can I help you with anything else?\n\n");
+				}
+				return;
+			}
+			
+			//Edit Review
+			else if(firstAnswer.equals("3") || firstAnswer.toLowerCase().equals("edit one of your existing reviews") ||  firstAnswer.toLowerCase().equals("edit")) {
+				//secondAnswer;
+				//for()
+				reviewNum = Integer.parseInt(secondAnswer);
+				if(reviewNum < (userReviews.length+1) && reviewNum > 0) {
+					botAdd("Please leave your *NEW* review now:");
+					return;
+				} 
+				else if (reviewNum == (userReviews.length+1)) {
+					botAdd("You have selected to go back to the main menu.\n\n");
+					back();
+				}
+				else {
+					botAdd("You made an invalid selection.");
+					return;
+				}
+			}
+		}else if(path.size()==4) {
+			thirdAnswer = path.get(3);
+			
+			//Leave Review
+			if(firstAnswer.equals("1") || firstAnswer.toLowerCase().equals("leave a review") ||  firstAnswer.toLowerCase().equals("leave review")) {
+				//Find userReviews
+				boolean notfound = true;
+				for(int i = 0; i < userReviews.length; i++) {
+					if(userReviews[i][0] == null && notfound) {
+						notfound = false;
+						int sentiment = SentimentAnalysis.computeSentiment(thirdAnswer);
+						botAdd(String.format("Based on my Stanford algorithm, I have determined that your review will be rated as %d stars!\n\n",(sentiment+1)));
+						if(sentiment < 3)
+							botAdd("It seems that you were not happy with this product. Please consider navigating to our complaints section so we can try to help.");
+						//I really love the chair that I bought. I think that it has been a wonderful addition to my house!
+						String review = "[" + (sentiment+1) + " stars] " + thirdAnswer;
+						userReviews[i][0] = productList[i];
+						userReviews[i][1] = review;
+					}
+				}
+				botAdd("Thank you for your review. Can I help you with anything else?");
+				back();
+			}
+			
+			//Edit Review
+			else if(firstAnswer.equals("3") || firstAnswer.toLowerCase().equals("edit one of your existing reviews") ||  firstAnswer.toLowerCase().equals("edit")) {
+				userReviews[reviewNum-1][1] = thirdAnswer;
+			}
+		}
+	}
+
+	void back() {
+		path.clear(); //clear path
+		initializeChat();//Repeat main menu
+		return;
+	}
 	
+	public static void populateReviews() {
+		userReviews[0][0] = productList[0];
+		userReviews[0][1] = "This chair is awesome!";
+		userReviews[1][0] = productList[1];
+		userReviews[1][1] = "Table works exactly as expected";
+		userReviews[2][0] = productList[5];
+		userReviews[2][1] = "I love lamp.";
+	}
 	
 	
 	
@@ -361,21 +508,40 @@ public class Bot extends JFrame {
 	///////////////////
 	
 	
-	
-	
-	
-	  /////////////////////////////
-	 //  Supplemental Functions //
-	/////////////////////////////
-	
-	
-	
-	
 
 	  /////////////////////////////
 	 //  Supplemental Functions //
 	/////////////////////////////
 	static int generateShippingCode() {
 		return (int)(Math.random()*100000000);	
+	}
+	
+	////////////////////////
+	//  Invalid Responses //
+	////////////////////////
+	
+	void notValid() {
+		int n = (int) (Math.random()*5);
+		switch(n) {
+		case 0: 
+			botAdd("I don't think that's a valid reponse. Please try again.");
+			break;
+		case 1:
+			botAdd("I didn't understand that, could you try again?");
+			break;
+		case 2:
+			botAdd("I think there may have been a typo, please try again.");
+			break;
+		case 3:
+			botAdd("I'm sorry, that isn't an available option. Please try again.");
+			break;
+		case 4:
+			botAdd("Please try again, that was not a valid entry.");
+			break;
+		default:
+			botAdd("I'm sorry, I didn't understand that. Could you try again?");
+			break;
+			
+		}
 	}
 }
