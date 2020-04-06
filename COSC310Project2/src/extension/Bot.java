@@ -278,7 +278,7 @@ public class Bot extends JFrame {
 	////////////////////////
 	
 	void notValid() {
-		int n = (int) (Math.random()*4);
+		int n = (int) (Math.random()*5);
 		switch(n) {
 		case 0: 
 			botAdd("I don't think that's a valid reponse. Please try again.");
