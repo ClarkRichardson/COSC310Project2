@@ -43,6 +43,7 @@ public class Bot extends JFrame {
 		}else {
 			history.add("     " + newText + "\n");
 		}; 
+
 	}
 	
 	void initializeChat(){
@@ -90,8 +91,8 @@ public class Bot extends JFrame {
 		frame.add(textInput);
 		textInput.setSize(310, 25);
 		textInput.setLocation(80, 645);
-		
-		//load datainto chatHistory
+
+		//load data into chat History
 		initializeChat();
 		history.forEach((n) -> chatArea.append(n));
 		
@@ -103,8 +104,10 @@ public class Bot extends JFrame {
 				userAdd(newEntry);
 				getResponse(newEntry);
 				resetTextBoxes();
+
 				while(history.size()>38) {
 					history.remove(0);
+
 				}
 				history.forEach((n) -> chatArea.append(n)); 
 				
@@ -166,7 +169,7 @@ public class Bot extends JFrame {
 		}
 		//Other (Please enter a valid command
 		else{
-			botAdd("Please Enter Valid Input");
+			notValid();
 			path.remove(newEntry);
 		}
 			
@@ -208,7 +211,7 @@ public class Bot extends JFrame {
 			
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		
@@ -254,7 +257,7 @@ public class Bot extends JFrame {
 			}
 			//Other (Please enter a valid command
 			else{
-				botAdd("Please Enter Valid Input");
+				notValid();
 				path.remove(path.size()-1);
 			}
 		}
@@ -263,8 +266,6 @@ public class Bot extends JFrame {
 	  /////////////////////////
 	 //  Complaints Section //
 	/////////////////////////
-	
-	
 	
 	
 	
@@ -280,16 +281,6 @@ public class Bot extends JFrame {
 	///////////////////
 	
 	
-	
-	
-	
-	  /////////////////////////////
-	 //  Supplemental Functions //
-	/////////////////////////////
-	
-	
-	
-	
 
 	  /////////////////////////////
 	 //  Supplemental Functions //
@@ -297,4 +288,34 @@ public class Bot extends JFrame {
 	static int generateShippingCode() {
 		return (int)(Math.random()*100000000);	
 	}
+	
+	////////////////////////
+	//  Invalid Responses //
+	////////////////////////
+	
+	void notValid() {
+		int n = (int) (Math.random()*5);
+		switch(n) {
+		case 0: 
+			botAdd("I don't think that's a valid reponse. Please try again.");
+			break;
+		case 1:
+			botAdd("I didn't understand that, could you try again?");
+			break;
+		case 2:
+			botAdd("I think there may have been a typo, please try again.");
+			break;
+		case 3:
+			botAdd("I'm sorry, that isn't an available option. Please try again.");
+			break;
+		case 4:
+			botAdd("Please try again, that was not a valid entry.");
+			break;
+		default:
+			botAdd("I'm sorry, I didn't understand that. Could you try again?");
+			break;
+			
+		}
+	}
 }
+
