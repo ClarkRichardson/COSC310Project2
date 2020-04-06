@@ -155,25 +155,25 @@ public class Bot extends JFrame {
 		
 		//Determine each category
 		//Product Satisfaction
-		if(category.equals("1") || category.toLowerCase().equals("product satisfaction") ||  category.toLowerCase().equals("satisfaction")) {
+		if(category.equals("1") ||  category.toLowerCase().equals("satisfaction")) {
 			questionNumber++;
 			productSatisfaction();
 		}
 		//Complaint Check
-		else if(category.equals("2") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+		else if(category.equals("2") || category.toLowerCase().contains("complaint")) {
 			
 		}
 		//Reviews
-		else if(category.equals("3") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+		else if(category.equals("3") || category.toLowerCase().equals("review")) {
 			questionNumber++;
 			reviews();
 		}
 		//Order Status
-		else if(category.equals("4") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+		else if(category.equals("4") || category.toLowerCase().equals("order")) {
 			
 		}
 		//Help
-		else if(category.equals("5") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
+		else if(category.equals("5") || category.toLowerCase().equals("help")) {
 			help();
 		}
 		//Other (Please enter a valid command
@@ -244,25 +244,29 @@ public class Bot extends JFrame {
 			String secondAnswer = path.get(2);
 			
 			//Send back
-			if(secondAnswer.equals("1") || secondAnswer.toLowerCase().equals("product defect") ||  secondAnswer.toLowerCase().equals("defect")) {
+			if(secondAnswer.equals("1") || secondAnswer.toLowerCase().contains("send back")) {
 				botAdd("Please go to your local post office and give them this shipping code");
 				botAdd("Your order will be returned for free");
 				botAdd("Your shipping number is " + generateShippingCode());
-				return;
+				back();
 			}
 			//Send refund
-			else if(secondAnswer.equals("2") || secondAnswer.toLowerCase().equals("missing parts") ||  secondAnswer.toLowerCase().equals("missing")) {
+			else if(secondAnswer.equals("2") || secondAnswer.toLowerCase().contains("refund")) {
 				botAdd("A refund will be sent to you credit card within the next 5");
 				botAdd(" business days");
-				return;
+				back();
 			}
 			//Leave a review
-			else if(secondAnswer.equals("3") || secondAnswer.toLowerCase().equals("not what i expected") ||  secondAnswer.toLowerCase().equals("not expected")) {
-				/////////TODO
+			else if(secondAnswer.equals("3") || secondAnswer.toLowerCase().contains("review")) {
+				path.clear();
+				path.add("3");
+				reviews();
 			}
 			//Leave a complaint
-			else if(secondAnswer.equals("4") || secondAnswer.toLowerCase().equals("exit") || secondAnswer.toLowerCase().equals("quit")) {
-				////////TODO
+			else if(secondAnswer.equals("4") || secondAnswer.toLowerCase().equals("complaint")) {
+				//path.clear();
+				path.add("2");
+				reviews();
 			}
 			//Other (Please enter a valid command
 			else{
@@ -474,14 +478,14 @@ public class Bot extends JFrame {
 			//String helpProduct = path.get();
 			
 			//Send back
-			if(secondAnswer.equals("1") || secondAnswer.toLowerCase().equals("assembly")) {
+			if(secondAnswer.equals("1") || secondAnswer.toLowerCase().contains("assembly")) {
 				botAdd("Here are the assembly instructions");
 				botAddNoName(assembly(1));
 				path.clear();
 				return;
 			}
 			//Send refund
-			else if(secondAnswer.equals("2") || secondAnswer.contains("broke") ||  secondAnswer.toLowerCase().equals("something")) {
+			else if(secondAnswer.equals("2") || secondAnswer.contains("broke") ||  secondAnswer.toLowerCase().contains("something")) {
 				botAdd("Bring the purchase along with receipt to your nearest Happy Home Furnishings store and we will attempt to fix or replace the piece");
 				path.clear();
 				return;
