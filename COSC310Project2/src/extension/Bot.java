@@ -156,7 +156,7 @@ public class Bot extends JFrame {
 		//Determine each category
 		//Product Satisfaction
 		if(category.equals("1") || category.toLowerCase().equals("product satisfaction") ||  category.toLowerCase().equals("satisfaction")) {
-			questionNumber ++;
+			questionNumber++;
 			productSatisfaction();
 		}
 		//Complaint Check
@@ -165,7 +165,8 @@ public class Bot extends JFrame {
 		}
 		//Reviews
 		else if(category.equals("3") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
-			
+			questionNumber++;
+			reviews();
 		}
 		//Order Status
 		else if(category.equals("4") || category.toLowerCase().equals("") ||  category.toLowerCase().equals("")) {
