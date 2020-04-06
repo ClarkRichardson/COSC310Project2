@@ -36,5 +36,15 @@ Bot:  I think there may have been a typo, please try again.
 
 Language Toolkits: 
 
+Sentiment Analysis (Stanford CoreNLP)
+This toolkit is used to evaluate the tone of a review left by the user and appends a rating (out of 5) to the review.
+Example snippet: 
+Bot: It seems that you want to leave a review. Can you tell me which product you would like to review?
+You -> table
+Bot: Great, you would like to review table! Please leave your review now and I will submit it.
+You -> I really love the table that I bought. I think that it has been a wonderful addition to my house!
+Bot: Based on my Stanford algorithm, I have determined that your review will be rated as 5 stars!
+*Review will be stored with [5 stars] appended to the user's input.
+
 New Method:
 A new method was added called moving. The user selects an amount of each of the furniture that they want moved and an address they want it to be moved to.
