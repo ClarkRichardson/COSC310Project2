@@ -35,6 +35,15 @@ User: possibly
 Bot:  I think there may have been a typo, please try again.
 
 Language Toolkits: 
+Parts-of-Speech (Stanford CoreNLP)
+This toolkit is used to identify names and products in a the complaint section. A customer writes their entire complaint
+and the bot will identify the persons name and the item the are complaining about. 
+Example snippet:
+Bot:Please leave your name and item in your complaint below.
+You -> My name is Jesse and I bought a chair last week. It has broken within two days.
+Bot: Is this the item that your complaint was about? chair
+You -> Yes
+Bot: Thank you Jesse for the feedback about the chair. We have noted your issue and will try to fix the situation.
 
 Sentiment Analysis (Stanford CoreNLP)
 This toolkit is used to evaluate the tone of a review left by the user and appends a rating (out of 5) to the review.
